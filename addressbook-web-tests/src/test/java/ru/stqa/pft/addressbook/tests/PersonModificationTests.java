@@ -13,7 +13,7 @@ public class PersonModificationTests extends TestBase {
     app.getNavigationHelper().gotoPersonPage();
     app.getPersonHelper().selectPerson();
     app.getPersonHelper().initPersonModification();
-    app.getPersonHelper().fillPersonForm(new PersonData("test", "test1", "test2", "test3", "test4", "test5", "test10", "test7", "test9", "test8", "test0"));
+    app.getPersonHelper().fillPersonForm(new PersonData("test", "test1", "test2", "test3", "test4", "test5", "test10", "test7", "test9", "test8", "test0", null), false);
     app.getPersonHelper().submitPersonModification();
   }
 }

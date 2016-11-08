@@ -5,7 +5,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.BrowserType;
-import org.openqa.selenium.remote.internal.WebElementToJsonConverter;
 
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -36,7 +35,7 @@ public class ApplicationManager {
     } else if (Objects.equals(browser, BrowserType.IE)){
       wd = new InternetExplorerDriver();
     }
-    wd.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+    wd.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
     groupHelper = new GroupHelper(wd);
     navigationHelper = new NavigationHelper(wd);
     sessionHelper = new SessionHelper(wd);

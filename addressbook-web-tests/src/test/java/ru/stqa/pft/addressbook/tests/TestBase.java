@@ -1,7 +1,5 @@
 package ru.stqa.pft.addressbook.tests;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.BrowserType;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
