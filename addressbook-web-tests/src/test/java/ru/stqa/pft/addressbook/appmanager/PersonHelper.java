@@ -63,4 +63,19 @@ public class PersonHelper extends HelperBase{
   public void submitPersonModification() {
     click(By.name("update"));
   }
+
+  public void returnToPersonPage() {
+   click(By.linkText("home"));
+  }
+
+  public void createPerson(PersonData person, boolean b) {
+    initPersonCreation();
+    fillPersonForm(new PersonData("test_1", "test1", "test2", "test3", "test4", "test5", "test6", "test7", "test9", "test8", "test0", "test"),true);
+    submitPersonCreation();
+    returnToPersonPage();
+  }
+
+  public boolean isThereAPerson() {
+    return isElementPresent(By.name("selected[]"));
+  }
 }
