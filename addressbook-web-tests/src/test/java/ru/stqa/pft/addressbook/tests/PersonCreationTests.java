@@ -9,8 +9,8 @@ public class PersonCreationTests extends TestBase {
     @Test
     public void PersonCreationTests() {
 
-        app.getPersonHelper().createPerson(new PersonData("test_1", "test1", "test2", "test3", "test4", "test5", "test6", "test7", "test9", "test8", "test0", "test"),true);
-        //app.getPersonHelper().initPersonCreation();
+        app.getPersonHelper().createPerson(new PersonData("test_1", "test1", "test2", "test3", "test4", "test5", "test6", "test7", "test9", "test8", "test0", "test"));
+
         //app.getPersonHelper().fillPersonForm(new PersonData("test_1", "test1", "test2", "test3", "test4", "test5", "test6", "test7", "test9", "test8", "test0", "test"),true);
        // app.getPersonHelper().submitPersonCreation();
     }
