@@ -30,6 +30,11 @@ public class GroupData {
     return name;
   }
 
+  public void setId(int id) {
+    this.id = id;
+  }
+
+
   public String getHeader() {
     return header;
   }
@@ -65,8 +70,5 @@ public class GroupData {
     return result;
   }
 
-
-  public void setId(int id) {
-    this.id = id;
-  }
 }
+
