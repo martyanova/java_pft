@@ -2,9 +2,13 @@ package ru.stqa.pft.addressbook.appmanager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.PersonData;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Александр on 06.11.2016.
@@ -36,6 +40,7 @@ public class PersonHelper extends HelperBase{
     }
    // click(By.xpath("//div[@id='content']/form/input[21]"));
   }
+
   public void initPersonCreation() {
     click(By.linkText("add new"));
   }
@@ -44,16 +49,18 @@ public class PersonHelper extends HelperBase{
     click(By.xpath("//div[@id='content']/form[2]/div[2]/input"));
   }
 
-  public void selectPerson() {
-    click(By.name("selected[]"));
+  public void selectPerson(int index) {
+    wd.findElements(By.name("selected[]")).get(index).click();
   }
 
   public void CloseWindow() {
     wd.switchTo().alert().accept();
   }
 
-  public void initPersonModification() {
-    click(By.xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img"));
+  public void initPersonModification(int index) {
+
+    String xpath = "//table[@id='maintable']/tbody/tr[" + Integer.toString(index + 2) + "]/td[8]/a/img";
+    click(By.xpath(xpath));
   }
 
   public void submitPersonCreation() {
@@ -77,5 +84,23 @@ public class PersonHelper extends HelperBase{
 
   public boolean isThereAPerson() {
     return isElementPresent(By.name("selected[]"));
+  }
+
+  public int getPersonCount() {
+    return wd.findElements(By.name("selected[]")).size();
+  }
+
+  public List<PersonData> getPersonList() {
+    List<PersonData> persons = new ArrayList<PersonData>();
+    List<WebElement> elements = wd.findElements(By.name("entry"));
+    for (WebElement element : elements){
+      int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
+      String firstname = element.findElement(By.xpath("//*[@id=\"maintable\"]/tbody/tr[2]/td[3]")).getText();
+      String lastname = element.findElement(By.xpath("//*[@id=\"maintable\"]/tbody/tr[2]/td[2]")).getText();
+      PersonData person = new PersonData(id, firstname ,null, lastname, null, null, null, null, null, null, null, null, "[none]");
+      persons.add(person);
+
+    }
+    return  persons;
   }
 }
