@@ -1,42 +1,40 @@
 package ru.stqa.pft.addressbook.tests;
 
-import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.PersonData;
+import ru.stqa.pft.addressbook.model.Persons;
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.testng.Assert.assertEquals;
 
 /**
  * Created by Александр on 06.11.2016.
  */
 public class PersonModificationTests extends TestBase {
 
+  @BeforeMethod
+  public void ensurePreconditions(){
+    app.goTo().personPage();
+    if (app.person().all().size()==0){
+      app.person().create(new PersonData().withFirstname("test_1").withLastname("test2"));
+    }
+  }
+
   @Test
   public void testPersonModification(){
+    Persons before = app.person().all();
+    PersonData modifiedPerson = before.iterator().next();
+    PersonData person = new PersonData()
+            .withId(modifiedPerson.getId()).withFirstname("test_1").withLastname("test2").withMiddlename("test3");
+    app.person().modify(person);
 
-    app.getNavigationHelper().gotoPersonPage();
-    if (! app.getPersonHelper().isThereAPerson()){
-      app.getPersonHelper().createPerson(new PersonData("test_1", "test1", "test2", "test3", "test4", "test5", "test6", "test7", "test9", "test8", "test0", "test"));
-    }
-    List<PersonData> before = app.getPersonHelper().getPersonList();
-    //app.getPersonHelper().selectPerson(before.size() - 1);
-    app.getPersonHelper().initPersonModification(before.size() - 1);
-    PersonData person = new PersonData(before.get(before.size()-1).getId(),"test_1", "test1", "test2", null, null, null, null, null, null, null, null, null);
-    app.getPersonHelper().fillPersonForm(person, false);
-    app.getPersonHelper().submitPersonModification();
-    app.getPersonHelper().returnToPersonPage();
-
-    List<PersonData> after = app.getPersonHelper().getPersonList();
-    Assert.assertEquals(after.size(), before.size());
-
-    before.remove(before.size()-1);
-    before.add(person);
-    Comparator<? super PersonData> byId = (g1, g2) -> Integer.compare(g1.getId(), g2.getId());
-    before.sort(byId);
-    after.sort(byId);
-    Assert.assertEquals(before, after);
+    Persons after = app.person().all();
+    assertEquals(after.size(), before.size());
+    assertThat(after, equalTo(before.without(modifiedPerson).withAdded(person)));
 
   }
+
+
 }

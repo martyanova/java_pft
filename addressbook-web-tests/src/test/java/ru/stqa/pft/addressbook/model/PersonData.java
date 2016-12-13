@@ -1,59 +1,90 @@
 package ru.stqa.pft.addressbook.model;
 
 public class PersonData {
-  private int id;
-  private final String firstname;
-  private final String middlename;
-  private final String lastname;
-  private final String nickname;
-  private final String title;
-  private final String company;
-  private final String address;
-  private final String home;
-  private final String work;
-  private final String mobile;
-  private final String fax;
-  private String group;
+  private int id = Integer.MAX_VALUE;
+  private  String firstname;
+  private  String middlename;
+  private  String lastname;
+  private  String nickname;
+  private  String title;
+
+
+
+  private  String company;
+  private  String address;
+  private  String home;
+  private  String work;
+  private  String mobile;
+  private  String fax;
+  private  String group;
+
+  public PersonData withFirstname(String firstname) {
+    this.firstname = firstname;
+    return this;
+  }
+
+  public PersonData withMiddlename(String middlename) {
+    this.middlename = middlename;
+    return this;
+  }
+
+  public PersonData withLastname(String lastname) {
+    this.lastname = lastname;
+    return this;
+  }
+
+  public PersonData withNickname(String nickname) {
+    this.nickname = nickname;
+    return this;
+  }
+
+  public PersonData withTitle(String title) {
+    this.title = title;
+    return this;
+  }
+
+  public PersonData withCompany(String company) {
+    this.company = company;
+    return this;
+  }
+
+  public PersonData withAddress(String address) {
+    this.address = address;
+    return this;
+  }
+
+  public PersonData withHome(String home) {
+    this.home = home;
+    return this;
+  }
+
+  public PersonData withWork(String work) {
+    this.work = work;
+    return this;
+  }
+
+  public PersonData withMobile(String mobile) {
+    this.mobile = mobile;
+    return this;
+  }
+
+  public PersonData withFax(String fax) {
+    this.fax = fax;
+    return this;
+  }
+
+  public PersonData withGroup(String group) {
+    this.group = group;
+    return this;
+  }
 
   public int getId() {
     return id;
   }
 
-  public void setId(int id) {
+  public PersonData withId(int id) {
     this.id = id;
-  }
-
-  public PersonData(String firstname, String middlename, String lastname, String nickname, String title, String company, String address, String home, String work, String mobile, String fax, String group) {
-    this.id = Integer.MAX_VALUE;
-    this.firstname = firstname;
-    this.middlename = middlename;
-    this.lastname = lastname;
-    this.nickname = nickname;
-
-    this.title = title;
-    this.company = company;
-    this.address = address;
-    this.home = home;
-    this.work = work;
-    this.mobile = mobile;
-    this.fax = fax;
-    this.group = group;
-  }
-
-  public PersonData(int id, String firstname, String middlename, String lastname, String nickname, String title, String company, String address, String home, String work, String mobile, String fax, String group) {
-    this.id = id;
-    this.firstname = firstname;
-    this.middlename = middlename;
-    this.lastname = lastname;
-    this.nickname = nickname;
-    this.title = title;
-    this.company = company;
-    this.address = address;
-    this.home = home;
-    this.work = work;
-    this.mobile = mobile;
-    this.fax = fax;
-    this.group = group;
+    return this;
   }
 
   public String getFirstname() {
@@ -105,24 +136,6 @@ public class PersonData {
   }
 
   @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-
-    PersonData that = (PersonData) o;
-
-    if (firstname != null ? !firstname.equals(that.firstname) : that.firstname != null) return false;
-    return lastname != null ? lastname.equals(that.lastname) : that.lastname == null;
-  }
-
-  @Override
-  public int hashCode() {
-    int result = firstname != null ? firstname.hashCode() : 0;
-    result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
-    return result;
-  }
-
-  @Override
   public String toString() {
     return "PersonData{" +
             "id=" + id +
@@ -131,4 +144,23 @@ public class PersonData {
             '}';
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    PersonData that = (PersonData) o;
+
+    if (id != that.id) return false;
+    if (firstname != null ? !firstname.equals(that.firstname) : that.firstname != null) return false;
+    return lastname != null ? lastname.equals(that.lastname) : that.lastname == null;
+  }
+
+  @Override
+  public int hashCode() {
+    int result = id;
+    result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
+    result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
+    return result;
+  }
 }

@@ -6,8 +6,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.PersonData;
+import ru.stqa.pft.addressbook.model.Persons;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -49,18 +49,19 @@ public class PersonHelper extends HelperBase{
     click(By.xpath("//div[@id='content']/form[2]/div[2]/input"));
   }
 
-  public void selectPerson(int index) {
-    wd.findElements(By.name("selected[]")).get(index).click();
+  public void selectPersonById(int id) {
+    wd.findElement(By.cssSelector("input[value = '" + id + "']")).click();
   }
 
   public void CloseWindow() {
     wd.switchTo().alert().accept();
   }
 
-  public void initPersonModification(int index) {
+  public void initPersonModification() {
 
-    String xpath = "//table[@id='maintable']/tbody/tr[" + Integer.toString(index + 2) + "]/td[8]/a/img";
-    click(By.xpath(xpath));
+    click(By.xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img"));
+    //String xpath = "//table[@id='maintable']/tbody/tr[" + Integer.toString(id + 2) + "]/td[8]/a/img";
+    //click(By.xpath(xpath));
   }
 
   public void submitPersonCreation() {
@@ -75,11 +76,25 @@ public class PersonHelper extends HelperBase{
    click(By.linkText("home"));
   }
 
-  public void createPerson(PersonData person) {
+  public void create(PersonData person) {
     initPersonCreation();
     fillPersonForm(person,true);
     submitPersonCreation();
     returnToPersonPage();
+  }
+
+  public void modify(PersonData person) {
+    selectPersonById(person.getId());
+    initPersonModification();
+    fillPersonForm(person, false);
+    submitPersonModification();
+    returnToPersonPage();
+  }
+
+  public void delete(PersonData person) {
+    selectPersonById(person.getId());
+    deletePerson();
+    CloseWindow();
   }
 
   public boolean isThereAPerson() {
@@ -90,17 +105,19 @@ public class PersonHelper extends HelperBase{
     return wd.findElements(By.name("selected[]")).size();
   }
 
-  public List<PersonData> getPersonList() {
-    List<PersonData> persons = new ArrayList<PersonData>();
+  public Persons all() {
+    Persons persons = new Persons();
     List<WebElement> elements = wd.findElements(By.name("entry"));
     for (WebElement element : elements){
       int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
       String firstname = element.findElement(By.xpath("//*[@id=\"maintable\"]/tbody/tr[2]/td[3]")).getText();
       String lastname = element.findElement(By.xpath("//*[@id=\"maintable\"]/tbody/tr[2]/td[2]")).getText();
-      PersonData person = new PersonData(id, firstname ,null, lastname, null, null, null, null, null, null, null, null, "[none]");
+      PersonData person = new PersonData().withId(id).withFirstname(firstname).withLastname(lastname);
       persons.add(person);
 
     }
     return  persons;
   }
+
+
 }
