@@ -7,9 +7,6 @@ public class PersonData {
   private  String lastname;
   private  String nickname;
   private  String title;
-
-
-
   private  String company;
   private  String address;
   private  String home;
@@ -17,6 +14,16 @@ public class PersonData {
   private  String mobile;
   private  String fax;
   private  String group;
+  private  String allPhones;
+
+  public String getAllPhones() {
+    return allPhones;
+  }
+
+  public PersonData withAllPhones(String allPhones) {
+    this.allPhones = allPhones;
+    return this;
+  }
 
   public PersonData withFirstname(String firstname) {
     this.firstname = firstname;

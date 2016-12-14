@@ -14,7 +14,7 @@ public class PersonCreationTests extends TestBase {
 
         app.goTo().personPage();
         Persons before = app.person().all();
-        PersonData person = new PersonData().withFirstname("test_1").withLastname("test2").withGroup("[none]");
+        PersonData person = new PersonData().withFirstname("test_1").withLastname("test2").withGroup("[none]").withWork("111").withMobile("222").withHome("777");
         app.person().create(person);
         app.person().returnToPersonPage();
         Persons after = app.person().all();
