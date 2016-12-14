@@ -34,6 +34,10 @@ public class PersonHelper extends HelperBase{
     type(By.name("work"), personData.getWork());
     type(By.name("fax"), personData.getFax());
 
+    type(By.name("email"), personData.getEmail1());
+    type(By.name("email2"), personData.getEmail2());
+    type(By.name("email3"), personData.getEmail3());
+
     if (creation) new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(personData.getGroup());
     else {
       Assert.assertFalse(isElementPresent(By.name("new_group")));
@@ -150,5 +154,16 @@ public class PersonHelper extends HelperBase{
     //wd.findElement(By.xpath(String.format("//input[@value='%s']/../../td[8]/a", id))).click();
     //wd.findElement(By.xpath(String.format("//tr[.//input[@value='%s']]/td[8]/a", id))).click();
     //wd.findElement(By.xpath(String.format("a[href='wdit.php&id=%s']", id))).click();
+  }
+  public PersonData infoDetailForm(PersonData person){
+    wd.findElement(By.cssSelector(String.format("a[href='view.php?id=%s']", person.getId()))).click();
+    String info[] = wd.findElement(By.id("content")).getText().replaceAll("[HMW:]", "")
+                        .replaceAll("\\n+\\s*", "\n").replaceFirst(" ", "\n").split("\n");
+
+    wd.navigate().back();
+
+    return new PersonData().withId(person.getId()).withFirstname(info [0]).withLastname(info [1])
+                        .withAddress(info [2]).withHome(info [3]).withMobile(info [4]).withWork(info [5])
+                        .withEmail1(info [6]).withEmail2(info [7]).withEmail3(info [8]);
   }
 }

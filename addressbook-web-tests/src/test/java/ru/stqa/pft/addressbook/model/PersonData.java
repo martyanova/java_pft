@@ -19,6 +19,16 @@ public class PersonData {
   private  String email3;
   private  String allPhones;
   private  String allEmails;
+  private  String allDetails;
+
+  public String getAllDetails() {
+    return allDetails;
+  }
+
+  public PersonData withAllDetails(String allDetails) {
+    this.allDetails = allDetails;
+    return this;
+  }
 
   public String getAllEmails() {
     return allEmails;
