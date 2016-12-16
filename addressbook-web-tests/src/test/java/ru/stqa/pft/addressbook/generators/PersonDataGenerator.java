@@ -64,29 +64,29 @@ public class PersonDataGenerator {
     private void saveAsJSON(List<PersonData> persons, File file) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
         String json = gson.toJson(persons);
-        Writer writer = new FileWriter(file);
-        writer.write(json);
-        writer.close();
+        try (Writer writer = new FileWriter(file)) {
+            writer.write(json);
+        }
     }
 
     private void saveAsXML(List<PersonData> persons, File file) throws IOException {
         XStream xStream = new XStream();
         xStream.processAnnotations(PersonData.class);
         String xml = xStream.toXML(persons);
-        Writer writer = new FileWriter(file);
-        writer.write(xml);
-        writer.close();
+        try (Writer writer = new FileWriter(file)) {
+            writer.write(xml);
+        }
     }
 
 
     private  void saveAsCSV(List<PersonData> persons, File file) throws IOException {
         System.out.println(new File(".").getAbsolutePath());
-        Writer writer = new FileWriter(file);
-        for (PersonData person : persons){
-            writer.write(String.format("%s;%s;%s;%s;%s\n", person.getFirstname(), person.getLastname(), person.getWork(), person.getMobile(), person.getHome()));
+        try (Writer writer = new FileWriter(file)) {
+            for (PersonData person : persons) {
+                writer.write(String.format("%s;%s;%s;%s;%s\n", person.getFirstname(), person.getLastname(), person.getWork(), person.getMobile(), person.getHome()));
 
+            }
         }
-        writer.close();
     }
 
     private  List<PersonData> generatePersons(int count) {

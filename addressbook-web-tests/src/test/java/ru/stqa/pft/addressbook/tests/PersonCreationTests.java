@@ -25,35 +25,37 @@ public class PersonCreationTests extends TestBase {
     @DataProvider
     public Iterator<Object[]> validPersonFromJson() throws IOException {
 
-        BufferedReader reader = new BufferedReader(new FileReader(new File("L:\\Devel\\java_pft\\addressbook-web-tests\\src\\test\\resources\\persons.json")));
-        String json = "";
-        String line = reader.readLine();
-        while (line != null) {
-            json += line;
-            line = reader.readLine();
-        }
-        Gson gson = new Gson();
-        List<PersonData> groups = gson.fromJson(json, new TypeToken<List<PersonData>>(){}.getType());
-        return  groups.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
+        try (BufferedReader reader = new BufferedReader(new FileReader(new File("L:\\Devel\\java_pft\\addressbook-web-tests\\src\\test\\resources\\persons.json")))) {
+            String json = "";
+            String line = reader.readLine();
+            while (line != null) {
+                json += line;
+                line = reader.readLine();
+            }
+            Gson gson = new Gson();
+            List<PersonData> groups = gson.fromJson(json, new TypeToken<List<PersonData>>() {
+            }.getType());
+            return groups.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
 
+        }
     }
 
     @DataProvider
     public Iterator<Object[]> validPersons() throws IOException {
 
-        BufferedReader reader = new BufferedReader(new FileReader(new File("L:\\Devel\\java_pft\\addressbook-web-tests\\src\\test\\resources\\persons.xml")));
-        String xml = "";
-        String line = reader.readLine();
-        while (line != null) {
-            xml += line;
-            line = reader.readLine();
+        try (BufferedReader reader = new BufferedReader(new FileReader(new File("L:\\Devel\\java_pft\\addressbook-web-tests\\src\\test\\resources\\persons.xml")))) {
+            String xml = "";
+            String line = reader.readLine();
+            while (line != null) {
+                xml += line;
+                line = reader.readLine();
+            }
+            XStream xStream = new XStream();
+            xStream.processAnnotations(PersonData.class);
+            List<PersonData> persons = (List<PersonData>) xStream.fromXML(xml);
+            return persons.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
         }
-        XStream xStream = new XStream();
-        xStream.processAnnotations(PersonData.class);
-        List<PersonData> persons = (List<PersonData>)xStream.fromXML(xml);
-        return  persons.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
     }
-
     @Test(dataProvider = "validPersons")
     public void PersonCreationTests(PersonData person) {
 

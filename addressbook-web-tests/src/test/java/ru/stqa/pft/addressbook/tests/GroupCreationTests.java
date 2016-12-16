@@ -26,47 +26,51 @@ public class GroupCreationTests extends TestBase {
     public Iterator<Object[]> validGroupsFromJson() throws IOException {
         //List<Object[]> list = new ArrayList<Object[]>();
         //BufferedReader reader = new BufferedReader(new FileReader(new File("src\\test\\resources\\groups.csv")));
-        BufferedReader reader = new BufferedReader(new FileReader(new File("L:\\Devel\\java_pft\\addressbook-web-tests\\src\\test\\resources\\groups.json")));
-        String json = "";
-        String line = reader.readLine();
-        while (line != null) {
-            json += line;
-            //String[] split = line.split(";");
-           // list.add(new Object[]{new GroupData().withName(split[0]).withHeader(split[1]).withFooter(split[2])});
-            line = reader.readLine();
+        try (BufferedReader reader = new BufferedReader(new FileReader(new File("L:\\Devel\\java_pft\\addressbook-web-tests\\src\\test\\resources\\groups.json")))) {
+            String json = "";
+            String line = reader.readLine();
+            while (line != null) {
+                json += line;
+                //String[] split = line.split(";");
+                // list.add(new Object[]{new GroupData().withName(split[0]).withHeader(split[1]).withFooter(split[2])});
+                line = reader.readLine();
 
+            }
+            Gson gson = new Gson();
+            List<GroupData> groups = gson.fromJson(json, new TypeToken<List<GroupData>>() {
+            }.getType());
+            return groups.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
+            //list.add((new Object[]{new GroupData().withName("test1").withHeader("test1").withFooter("test1")}));
+            //list.add((new Object[]{new GroupData().withName("test2").withHeader("test2").withFooter("test2")}));
+            //list.add((new Object[]{new GroupData().withName("test3").withHeader("test3").withFooter("test3")}));
+            //return list.listIterator();
         }
-        Gson gson = new Gson();
-        List<GroupData> groups = gson.fromJson(json, new TypeToken<List<GroupData>>(){}.getType());
-        return  groups.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
-        //list.add((new Object[]{new GroupData().withName("test1").withHeader("test1").withFooter("test1")}));
-        //list.add((new Object[]{new GroupData().withName("test2").withHeader("test2").withFooter("test2")}));
-        //list.add((new Object[]{new GroupData().withName("test3").withHeader("test3").withFooter("test3")}));
-        //return list.listIterator();
     }
 
     @DataProvider
     public Iterator<Object[]> validGroups() throws IOException {
         //List<Object[]> list = new ArrayList<Object[]>();
         //BufferedReader reader = new BufferedReader(new FileReader(new File("src\\test\\resources\\groups.csv")));
-        BufferedReader reader = new BufferedReader(new FileReader(new File("L:\\Devel\\java_pft\\addressbook-web-tests\\src\\test\\resources\\groups.xml")));
-        String xml = "";
-        String line = reader.readLine();
-        while (line != null) {
-            xml += line;
-            //String[] split = line.split(";");
-            // list.add(new Object[]{new GroupData().withName(split[0]).withHeader(split[1]).withFooter(split[2])});
-            line = reader.readLine();
+        try (BufferedReader reader = new BufferedReader(new FileReader(new File("L:\\Devel\\java_pft\\addressbook-web-tests\\src\\test\\resources\\groups.xml")))) {
 
+            String xml = "";
+            String line = reader.readLine();
+            while (line != null) {
+                xml += line;
+                //String[] split = line.split(";");
+                // list.add(new Object[]{new GroupData().withName(split[0]).withHeader(split[1]).withFooter(split[2])});
+                line = reader.readLine();
+
+            }
+            XStream xStream = new XStream();
+            xStream.processAnnotations(GroupData.class);
+            List<GroupData> groups = (List<GroupData>) xStream.fromXML(xml);
+            return groups.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
+            //list.add((new Object[]{new GroupData().withName("test1").withHeader("test1").withFooter("test1")}));
+            //list.add((new Object[]{new GroupData().withName("test2").withHeader("test2").withFooter("test2")}));
+            //list.add((new Object[]{new GroupData().withName("test3").withHeader("test3").withFooter("test3")}));
+            //return list.listIterator();
         }
-        XStream xStream = new XStream();
-        xStream.processAnnotations(GroupData.class);
-        List<GroupData> groups = (List<GroupData>)xStream.fromXML(xml);
-        return  groups.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
-        //list.add((new Object[]{new GroupData().withName("test1").withHeader("test1").withFooter("test1")}));
-        //list.add((new Object[]{new GroupData().withName("test2").withHeader("test2").withFooter("test2")}));
-        //list.add((new Object[]{new GroupData().withName("test3").withHeader("test3").withFooter("test3")}));
-        //return list.listIterator();
     }
 
     @Test(dataProvider = "validGroupsFromJson")
