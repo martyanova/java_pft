@@ -13,8 +13,8 @@ public class PersonDeletionTests extends TestBase {
 
   @BeforeMethod
   public void ensurePreconditions(){
-    app.goTo().personPage();
-    if (app.person().all().size()==0){
+    if (app.db().persons().size()==0){
+      app.goTo().personPage();
       app.person().create(new PersonData().withFirstname("test_1").withLastname("test2"));
     }
   }
@@ -22,10 +22,10 @@ public class PersonDeletionTests extends TestBase {
   @Test
   public void testPersonDeletion() {
 
-    Persons before = app.person().all();
+    Persons before = app.db().persons();
     PersonData deletedPerson = before.iterator().next();
     app.person().delete(deletedPerson);
-    Persons after = app.person().all();
+    Persons after = app.db().persons();
     assertEquals(after.size(), before.size()-1);
     assertThat(after, equalTo(before.without(deletedPerson)));
   }

@@ -60,12 +60,12 @@ public class PersonCreationTests extends TestBase {
     public void PersonCreationTests(PersonData person) {
 
         app.goTo().personPage();
-        Persons before = app.person().all();
+        Persons before = app.db().persons();
         File photo = new File("src/test/resources/Koala.jpg");
         //PersonData person = new PersonData().withFirstname("test_1").withLastname("test2").withGroup("[none]").withWork("111").withMobile("222").withHome("777").withPhoto(photo);
         app.person().create(person);
         app.person().returnToPersonPage();
-        Persons after = app.person().all();
+        Persons after = app.db().persons();
         assertThat(after.size(), equalTo(before.size() + 1));
         assertThat(after, equalTo(
                 before.withAdded(person.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));

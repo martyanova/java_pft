@@ -38,7 +38,7 @@ public class PersonHelper extends HelperBase{
     type(By.name("email2"), personData.getEmail2());
     type(By.name("email3"), personData.getEmail3());
 
-    attach(By.name("photo"), personData.getPhoto());
+    //attach(By.name("photo"), personData.getPhoto());
 
     if (creation) new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(personData.getGroup());
     else {
