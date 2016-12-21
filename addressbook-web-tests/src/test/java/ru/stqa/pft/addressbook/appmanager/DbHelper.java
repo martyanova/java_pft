@@ -51,4 +51,11 @@ public class DbHelper {
     }
 
 
+    public void refresh(GroupData group) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        session.refresh(group);
+        session.getTransaction().commit();
+        session.close();
+    }
 }

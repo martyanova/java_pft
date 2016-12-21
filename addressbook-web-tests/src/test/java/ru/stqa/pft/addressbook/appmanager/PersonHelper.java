@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import ru.stqa.pft.addressbook.model.GroupData;
 import ru.stqa.pft.addressbook.model.PersonData;
 import ru.stqa.pft.addressbook.model.Persons;
 
@@ -40,12 +41,15 @@ public class PersonHelper extends HelperBase{
 
     //attach(By.name("photo"), personData.getPhoto());
 
-    if (creation) new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(personData.getGroup());
-    else {
-      Assert.assertFalse(isElementPresent(By.name("new_group")));
+  //    if (personData.getGroups().size() == 0){
+  //    new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(personData.getGroups().iterator().next().getName());
+  //   }
     }
+  //  else {
+  //    Assert.assertFalse(isElementPresent(By.name("new_group")));
+  //  }
    // click(By.xpath("//div[@id='content']/form/input[21]"));
-  }
+  //}
 
   public void initPersonCreation() {
     click(By.linkText("add new"));
@@ -167,5 +171,23 @@ public class PersonHelper extends HelperBase{
     return new PersonData().withId(person.getId()).withFirstname(info [0]).withLastname(info [1])
                         .withAddress(info [2]).withHome(info [3]).withMobile(info [4]).withWork(info [5])
                         .withEmail1(info [6]).withEmail2(info [7]).withEmail3(info [8]);
+  }
+
+
+    public void selectGroupForAdd(int id) {
+      new Select(wd.findElement(By.name("to_group"))).selectByValue(String.valueOf(id));
+    }
+
+
+  public void addToSelectedGroup() {
+    click(By.xpath("//*[@id=\"content\"]/form[2]/div[4]/input"));
+  }
+
+  public void selectGroup(int id) {
+    new Select(wd.findElement(By.name("group"))).selectByValue(String.valueOf(id));
+  }
+
+  public void delSelectedPersonFromGroup() {
+    click(By.xpath("//*[@id=\"content\"]/form[2]/div[3]/input"));
   }
 }

@@ -6,6 +6,8 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "addressbook")
@@ -44,8 +46,6 @@ public class PersonData {
   @Transient
   private  String fax;
   @Transient
-  private  String group;
-  @Transient
   private  String email1;
   @Transient
   private  String email2;
@@ -57,6 +57,12 @@ public class PersonData {
   private  String allEmails;
   @Transient
   private  String allDetails;
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(name = "address_in_groups",
+          joinColumns = @JoinColumn(name = "id"),inverseJoinColumns = @JoinColumn(name = "group_id"))
+  private Set<GroupData> groups = new HashSet<GroupData>();
+
+
   /*@Column(name = "photo")
   @Type(type = "text")
   private String photo;
@@ -179,10 +185,10 @@ public class PersonData {
     return this;
   }
 
-  public PersonData withGroup(String group) {
-    this.group = group;
-    return this;
-  }
+ // public PersonData withGroup(String group) {
+  //  this.group = group;
+  //  return this;
+ // }
 
   public int getId() {
     return id;
@@ -237,9 +243,13 @@ public class PersonData {
     return fax;
   }
 
-  public String getGroup() {
-    return group;
+  public Groups getGroups() {
+    return new Groups(groups);
   }
+
+  //public String getGroup() {
+   // return group;
+  //}
 
   @Override
   public String toString() {
@@ -268,5 +278,10 @@ public class PersonData {
     result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
     result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
     return result;
+  }
+
+  public PersonData inGroup(GroupData group) {
+    groups.add(group);
+    return this;
   }
 }

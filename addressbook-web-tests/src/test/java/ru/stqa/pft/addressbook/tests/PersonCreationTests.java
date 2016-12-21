@@ -6,6 +6,7 @@ import com.thoughtworks.xstream.XStream;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import ru.stqa.pft.addressbook.model.Groups;
 import ru.stqa.pft.addressbook.model.PersonData;
 import ru.stqa.pft.addressbook.model.Persons;
 
@@ -60,15 +61,17 @@ public class PersonCreationTests extends TestBase {
     public void PersonCreationTests(PersonData person) {
 
         app.goTo().personPage();
+        //Groups groups = app.db().groups();
         Persons before = app.db().persons();
         File photo = new File("src/test/resources/Koala.jpg");
-        //PersonData person = new PersonData().withFirstname("test_1").withLastname("test2").withGroup("[none]").withWork("111").withMobile("222").withHome("777").withPhoto(photo);
+        //PersonData persons = new PersonData().withFirstname("test_1").withLastname("test2").inGroup(groups.iterator().next()).withWork("111").withMobile("222").withHome("777").withPhoto(photo);
         app.person().create(person);
         app.person().returnToPersonPage();
         Persons after = app.db().persons();
         assertThat(after.size(), equalTo(before.size() + 1));
         assertThat(after, equalTo(
                 before.withAdded(person.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
+        verifyPersonListInUI();
 
     }
 

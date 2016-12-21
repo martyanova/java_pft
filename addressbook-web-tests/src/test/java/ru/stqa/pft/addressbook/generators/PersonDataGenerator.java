@@ -94,7 +94,8 @@ public class PersonDataGenerator {
         for (int i = 0; i< count; i++){
             persons.add(new PersonData().withFirstname(String.format("test %s", i))
                     .withLastname(String.format("Lastname %s", i)).withWork(String.format("Work %s", i))
-                    .withMobile(String.format("Mobile %s", i)).withHome(String.format("Home %s", i)).withGroup("[none]"));
+                    .withMobile(String.format("Mobile %s", i)).withHome(String.format("Home %s", i)));
+                    //.withGroup("[none]"));
         }
         return persons;
     }

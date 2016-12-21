@@ -28,6 +28,7 @@ public class PersonDeletionTests extends TestBase {
     Persons after = app.db().persons();
     assertEquals(after.size(), before.size()-1);
     assertThat(after, equalTo(before.without(deletedPerson)));
+    verifyPersonListInUI();
   }
 
 
